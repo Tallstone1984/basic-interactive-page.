@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  	<head>
+    <meta charset="utf-8">
+	<title>Website Template</title>
+	<style>
+            
+	* {margin:0; padding:20px; text-align:center; }
+		    
+	body {width:1000px; margin:40px auto;}
+	input {padding:2px; margin: 10px 0}
+	header {background:red; height: 100px}
+	nav {display: flex; justify-content: space-around; flex-wrap: wrap; background:lightgreen;}
+	button {background: #ff9999; list-style: none; width: 100px; }
+	main {background:yellow}
+	footer {background:lightblue; height: 60px}
+	button:hover {background: pink}
+	span {background: pink}
+	p {text-align: left}
+
+    </style>
+	</head>
+<body>
+
+<header><h1>Website Template</h1></header>
+
+<nav></nav>
+
+<main>
+	<form id=myform>
+				
+		<div id=text>
+			
+			<label>What is your header text?
+			
+			<input type=text id=headerText></label><br>
+			
+			<label>What is your footer text?
+			
+			<input type=text id=footerText></label>
+			
+		</div>
+		
+		 <div id=buttons>
+			
+			How many buttons would you like?
+
+			<label>1 <input name=numberButtons type=radio value=1></label>
+			<label>2 <input name=numberButtons type=radio value=2></label>
+			<label>3 <input name=numberButtons type=radio value=3></label>
+			<label>4 <input name=numberButtons type=radio value=4></label>
+			<label>5 <input name=numberButtons type=radio value=5></label>
+			<label>6 <input name=numberButtons type=radio value=6></label>
+			<label>7 <input name=numberButtons type=radio value=7></label>
+			<label>8 <input name=numberButtons type=radio value=8></label>
+        
+		</div>
+		 
+		<span id=done>Done</span>
+		
+	</form>
+	
+</main>
+
+<footer><h2></h2></footer>
+
+<script>
+
+var elFooter, elNav, elButton, elHeader, textFooter, textHeader, target;		//create element variables
+
+elHeader = document.querySelector('header > h1');		//store elements
+elFooter = document.querySelector('footer > h2');		//	
+elNav = document.querySelector('nav');					//
+elTextFoot = document.getElementById('footerText');		//
+elTextHead = document.getElementById('headerText');		//
+elButton = document.getElementById('buttons');			//
+elDone = document.getElementById('done');				//
+
+function changeText(e, type) 							//change header and footer text
+{
+	if (!e) {
+		e = window.event;								//support for older browser
+	}
+	target = e.target || e.srcElement;
+	var input = target.value;
+	type.textContent = input;							
+}
+
+function addButton(){										//add buttons to page
+	var el = document.getElementsByName('numberButtons');   //store radio button
+	var value = 0;
+	var elLength = document.getElementsByTagName("button");
+	var buttonValue = elLength.length;
+
+	for (var i = 0; i < el.length; i++){
+		if(el[i].checked){
+			value = el[i].value;
+		}
+	}
+	if(buttonValue > 0){
+		for(var i = 0; i < buttonValue; i++){
+			var elRemove = document.getElementsByClassName("button")[0];  //removes buttons
+			var remove = elRemove.parentNode;
+			remove.removeChild(elRemove);
+		}
+	}
+	for(var i1 = 1; i1 < el.length + 1; i1++){								
+		if(value == i1){
+			for(i2 = 0; i2 < value; i2++){
+				var boxEl = document.createElement("button");		//create new button elements
+				boxEl.setAttribute("class", "button");
+				var number = document.createTextNode("button" + (i2 + 1));
+				boxEl.appendChild(number);
+				var position = document.getElementsByTagName("nav")[0];
+				position.appendChild(boxEl);
+			}
+		}
+	}
+} 
+
+function removeButton(e, type){						//remove buttons function
+	var target, elParent;
+	target = e.target;
+	elParent = target.parentNode;
+	var el = document.getElementsByTagName("button");
+	var buttonValue = el.length;
+	if(buttonValue > 0){
+		elParent.removeChild(target);                //remove button
+	}
+}
+
+function changeMain(){					//switch to ipsum
+var elRemove = document.getElementsByTagName("form")[0];
+var remove = elRemove.parentNode;
+remove.removeChild(elRemove);
+var ipsumInsert = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
+var newParagraph = document.createElement("p");
+var ipsum = document.createTextNode(ipsumInsert);
+newParagraph.appendChild(ipsum);
+var pos = document.getElementsByTagName("main")[0];
+pos.appendChild(newParagraph);8
+}
+
+function clearPage(type){				//clears page on reload
+	var elText = type;	
+	elText.focus();
+	document.getElementById("myform").reset();
+}
+
+
+elTextHead.addEventListener('blur', function(e) {					//event listeners to fire functions
+	changeText(e, elHeader);});										//
+
+elTextFoot.addEventListener('blur', function(e) {					//									
+	changeText(e, elFooter);});										//
+
+elButton.addEventListener('change', addButton, false);				//	
+
+elDone.addEventListener('click', changeMain, false);				//
+
+elNav.addEventListener('dblclick', function(e){						//
+	removeButton(e)}, false);										//
+
+window.addEventListener('load', function(){							//
+	clearPage(elTextHead)}, false);									//
+</script> 		
+
+</body>	
+
+</html>
